@@ -1,0 +1,5 @@
+global-include *.js
+global-include *.css
+global-include *.png
+include README.rst
+include LICENSE

@@ -1,0 +1,15 @@
+## Exclude backup / pyc files
+*~
+
+## Common Python stuff
+*.py[co]
+*.egg
+*.egg-info
+/dist
+/build
+
+## Exclude virtualenvs
+/.venv*
+
+## As it contains passwords and stuff..
+ghmap*.cfg
