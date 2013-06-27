@@ -1,0 +1,38 @@
+{% extends "map-editor/base.html" %}
+
+{% block page_content %}
+<div class="container">
+
+<h1>{{ owner }}/{{ repo }} <small>({{ branch }})</small></h1>
+
+<table class="table table-striped table-bordered">
+<thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>View on GitHub</th>
+    </tr>
+</thead>
+<tbody>
+{% for file in contents %}
+    <tr>
+        <td>
+            {% if file.type == "dir" or file.path.endswith('.geojson') %}
+            <a href="{{ url_for('map_editor', owner=owner, repo=repo, branch=branch, path=file.path) }}">{{ file.path }}</a>
+            {%else%}
+            {{ file.path }}
+            {% endif %}
+        </td>
+        <td>{{ file.type }}</td>
+        <td>{{ file.size }}</td>
+        <td>
+            <a href="{{ file.html_url }}">View on GitHub</a>
+        </td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+{% endblock %}

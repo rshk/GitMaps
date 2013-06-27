@@ -1,0 +1,17 @@
+{% extends "map-editor/base.html" %}
+
+{% block page_content %}
+<div class="container">
+
+<h1>{{ title }}</h1>
+
+<ul class="branches-list">
+{% for branch in branches %}
+    <li>
+        <strong><a href="{{ url_for('map_editor', owner=repo.owner.login, repo=repo.name, branch=branch.name) }}">{{ branch.name }}</a></strong>
+    </li>
+{% endfor %}
+</ul>
+
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block body_content %}
+
+<div class="navbar navbar-inverse navbar-static-top">
+  <div class="navbar-inner">
+    <a class="brand" href="/">GhMap++</a>
+    <ul class="nav">
+      <li><a href="/map-editor/">Edit GeoJSON files</a></li>
+      <li><a href="#">Create Multi-layer Map</a></li>
+    </ul>
+    <ul class="nav pull-right">
+      <li><a href="/login/">Login</a></li>
+      <li><a href="/about/">User profile</a></li>
+      <li><a href="#">Logout</a></li>
+    </ul>
+  </div>
+</div>
+
+
+{% block page_content %}{% endblock %}
+
+{%block footer%}
+<div class="container">
+
+<hr>
+<p style="color:#888;font-size:80%;">
+    &copy; 2013 Samuele Santi - Under Apache License Version 2.0<br>
+    This application is <strong>not</strong> in any way affiliated with GitHub.
+</p>
+
+</div>
+{% endblock %}
+
+{% endblock %}

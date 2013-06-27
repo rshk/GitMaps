@@ -1,0 +1,20 @@
+{% extends "map-editor/base.html" %}
+
+{% block page_content %}
+<div class="container">
+
+<h1>{{ title }}</h1>
+
+<ul class="repos-list">
+{% for repo in repos %}
+    <li>
+        <strong><a href="{{ url_for('map_editor', owner=repo.owner.login, repo=repo.name) }}">{{ repo.full_name }}</a></strong>
+        {% if repo.description %}
+            &mdash; {{ repo.description }}
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+
+</div>
+{% endblock %}
