@@ -3,12 +3,13 @@
 {% block page_content %}
 <div class="container">
 
-<h1>{{ title }}</h1>
+<h1>Branches <small>{{ title }}</small></h1>
 
 <ul class="branches-list">
 {% for branch in branches %}
     <li>
         <strong><a href="{{ url_for('map_editor', owner=repo.owner.login, repo=repo.name, branch=branch.name) }}">{{ branch.name }}</a></strong>
+        {{ branch.commit.sha }}
     </li>
 {% endfor %}
 </ul>

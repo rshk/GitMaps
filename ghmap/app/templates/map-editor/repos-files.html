@@ -8,24 +8,32 @@
 <table class="table table-striped table-bordered">
 <thead>
     <tr>
+        <th style="width:20px;"></th>
         <th>Name</th>
         <th>Type</th>
         <th>Size</th>
-        <th>View on GitHub</th>
+        <th>Links</th>
     </tr>
 </thead>
 <tbody>
 {% for file in contents %}
     <tr>
+        <td style="text-align:center;">
+            {% if file.type == "dir"%}
+            <i class="icon-folder-close"></i>
+            {% elif file.path.endswith('.geojson') %}
+            <i class="icon-map-marker"></i>
+            {% endif %}
+        </td>
         <td>
             {% if file.type == "dir" or file.path.endswith('.geojson') %}
             <a href="{{ url_for('map_editor', owner=owner, repo=repo, branch=branch, path=file.path) }}">{{ file.path }}</a>
-            {%else%}
+            {% else %}
             {{ file.path }}
             {% endif %}
         </td>
-        <td>{{ file.type }}</td>
-        <td>{{ file.size }}</td>
+        <td>{{ file.type or "" }}</td>
+        <td>{{ file.size or "" }}</td>
         <td>
             <a href="{{ file.html_url }}">View on GitHub</a>
         </td>
