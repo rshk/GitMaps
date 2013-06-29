@@ -32,6 +32,9 @@ if 'GITMAP_CONF' in os.environ:
             app.config['{}.{}'.format(section, option)] = \
                 json.loads(cfgp.get(section, option))
 
+else:
+    raise Exception("Missing GITMAP_CONF variable! Cannot load configuration.")
+
 app.secret_key = base64.decodestring(app.config['server.secret_key'])
 
 
