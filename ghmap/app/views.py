@@ -190,9 +190,11 @@ api.add_resource(Layer, '/api/layer/<owner>/<repo>/<branch>/<path:path>')
 
 
 class GeoJsonFile(restful.Resource):
+    def getAuth(self):
+        return github.get_session(token=session['token'])
+
     def get(self, owner, repo, branch, path):
-        auth = github.get_session(token=session['token'])
-        resp = auth.get('/repos/{}/{}/contents/{}?ref={}'.format(owner, repo, path, branch))
+        resp = self.getAuth().get('/repos/{}/{}/contents/{}?ref={}'.format(owner, repo, path, branch))
 
         if not resp.ok:
             raise Exception("Error getting file")
@@ -205,6 +207,48 @@ class GeoJsonFile(restful.Resource):
 
         ## todo: we can get this from the API...
         return geojson
+
+    def put(self, owner, repo, branch, path):
+        # http://developer.github.com/v3/repos/contents/#create-a-file
+        import base64
+        from flask import request
+
+        auth = self.getAuth()
+
+        url = '/repos/{}/{}/contents/{}?ref={}'.format(owner, repo, path, branch)
+
+        message = request.args.get('message') or \
+            "Updated {} via GitMaps".format(path)
+
+        previous_sha = None
+        resp = auth.get(url)
+        if resp.ok:
+            prev_file = resp.json()
+            previous_sha = prev_file['sha']
+
+        payload = {
+            'message': message,
+            'content': base64.b64encode(request.get_data()),
+            #'path': path,  ## This is optional....
+            'branch': branch,
+            #'sha': None,  # ----- todo: it looks like this is needed!!
+        }
+
+        ## This is needed for update...
+        if previous_sha is not None:
+            payload['sha'] = previous_sha
+
+        ## todo: if nothing changed, do not commit!
+
+        resp = auth.put(
+            url,
+            data=json.dumps(payload),
+            headers={'content-type': 'application/json'})
+
+        if not resp.ok:
+            raise Exception("Request failed! {} - {}".format(resp.status_code, resp.text))
+
+        pass
 
 api.add_resource(GeoJsonFile, '/api/geojson/<owner>/<repo>/<branch>/<path:path>')
 
