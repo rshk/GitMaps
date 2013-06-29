@@ -26,8 +26,8 @@ from rauth.service import OAuth2Service
 
 from . import app
 
-CLIENT_ID = app.config['github.client_id']
-CLIENT_SECRET = app.config['github.client_secret']
+CLIENT_ID = app.config['GITHUB_CLIENT_ID']
+CLIENT_SECRET = app.config['GITHUB_CLIENT_SECRET']
 
 
 github = OAuth2Service(
