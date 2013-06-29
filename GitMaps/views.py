@@ -24,7 +24,7 @@ from flask import render_template, session
 from flask.ext import restful
 import requests
 
-from .app import app
+from . import app
 from .auth import github, require_github
 
 

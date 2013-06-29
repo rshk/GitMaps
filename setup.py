@@ -19,10 +19,10 @@ from setuptools import setup, find_packages
 version = '0.1'
 
 setup(
-    name='ghmap',
+    name='GitMaps',
     version=version,
     packages=find_packages(),
-    url='http://ghmap.github.io',
+    url='http://gitmaps.xk0.org/',
     license='Apache License, Version 2.0, January 2004',
     author='Samuele Santi',
     author_email='samuele@samuelesanti.com',
@@ -35,7 +35,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'gitmaps = ghmap.server:run',
+            'gitmaps = GitMaps.server:run',
         ],
     },
     classifiers=[

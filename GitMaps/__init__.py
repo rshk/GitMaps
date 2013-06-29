@@ -14,5 +14,27 @@
 ## limitations under the License.
 ##==============================================================================
 
-from .app import app
-from . import views, auth
+import os
+import base64
+
+from flask import Flask
+app = Flask(__name__)
+
+
+if 'GITMAP_CONF' in os.environ:
+    from ConfigParser import RawConfigParser
+    import json
+    settings_file = os.environ['GITMAP_CONF']
+    cfgp = RawConfigParser()
+    cfgp.read(settings_file)
+    for section in cfgp.sections():
+        for option in cfgp.options(section):
+            app.config['{}.{}'.format(section, option)] = \
+                json.loads(cfgp.get(section, option))
+
+app.secret_key = base64.decodestring(app.config['server.secret_key'])
+
+
+## Import the views
+from GitMaps import auth
+from GitMaps import views

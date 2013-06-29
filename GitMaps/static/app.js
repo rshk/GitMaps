@@ -111,7 +111,15 @@ var Application = window.Application = (function(){
                         //layer.setIcon(icon);
                     }
                 }).addTo(map);
-                map.fitBounds(layer.getBounds());
+                try {
+                    map.fitBounds(layer.getBounds());
+                }
+                catch (e) {
+                    map.fitWorld();
+                }
+            },
+            error: function() {
+                alert("Error while getting data! Maybe you want to create a new map?");
             }
         });
         return map;
@@ -219,6 +227,46 @@ var Application = window.Application = (function(){
             // todo: on popup dismiss, we want to update the feature...
         };
 
+
+        var initEditLayer = function(map, layer) {
+            // Initialize the draw control and pass it the FeatureGroup of editable layers
+            //layer.addTo(map);
+            map.addLayer(layer);
+            map.editableLayer = layer;
+
+            try {
+                map.fitBounds(layer.getBounds());
+            }
+            catch (e) {
+                map.fitWorld();
+            }
+
+            var drawControl = new L.Control.Draw({
+                position: 'topleft',
+                edit: {featureGroup: map.editableLayer}
+            });
+            map.addControl(drawControl);
+
+            // Keep edited things
+            map.on('draw:created', function (e) {
+                console.log("Draw created", e);
+                var type = e.layerType,
+                    layer = e.layer;
+
+                // todo: we should make more checks here...
+                if (type === 'marker') {
+                    if (layer.feature === undefined) {
+                        layer.feature = {};
+                    }
+                    layer.feature.properties = {};
+                    addEditingPopup(layer.feature.properties, layer);
+                }
+                map.editableLayer.addLayer(layer);
+           });
+        };
+
+
+
         // Retrieve the GeoJSON file from the API and start editing..
         $.ajax({
             method: 'GET',
@@ -227,45 +275,12 @@ var Application = window.Application = (function(){
                 var layer = L.geoJson(data, {
                     onEachFeature: addEditingPopup
                 });
-                layer.addTo(map);
-                map.fitBounds(layer.getBounds());
-
-                // Store for later reuse...
-                map.editableLayer = layer;
-
-                //window.layer = layer;
-
-                //JSON.stringify(layer.toGeoJSON())
-
-                // Initialize the FeatureGroup to store editable layers
-                // var drawnItems = new L.FeatureGroup();
-                // map.addLayer(drawnItems);
-                var drawnItems = layer;
-
-                // Initialize the draw control and pass it the FeatureGroup of editable layers
-                var drawControl = new L.Control.Draw({
-                    position: 'topleft',
-                    direction: 'horizontal',
-
-                    // edit: {featureGroup: layer}
-                    edit: {featureGroup: drawnItems}
-                });
-                map.addControl(drawControl);
-
-                // Keep edited things
-                map.on('draw:created', function (e) {
-                    var type = e.layerType,
-                        layer = e.layer;
-                    if (type === 'marker') {
-                        if (layer.feature === undefined) {
-                            layer.feature = {};
-                        }
-                        layer.feature.properties = {};
-                        addEditingPopup(layer.feature.properties, layer);
-                    }
-                    drawnItems.addLayer(layer);
-                });
-
+                initEditLayer(map, layer);
+            },
+            error: function() {
+                alert("Error while fetching file. Saving will attempt to create a new one!");
+                var layer = L.featureGroup();
+                initEditLayer(map, layer);
             }
         });
         return map;

@@ -18,18 +18,16 @@
 Authentication views and stuff
 """
 
-from ghmap import settings
-
-CLIENT_ID = settings.get('github.client_id')
-CLIENT_SECRET = settings.get('github.client_secret')
-
 import json
 from functools import wraps
 
 from flask import url_for, session, request, redirect, make_response
 from rauth.service import OAuth2Service
 
-from .app import app
+from . import app
+
+CLIENT_ID = app.config['github.client_id']
+CLIENT_SECRET = app.config['github.client_secret']
 
 
 github = OAuth2Service(
