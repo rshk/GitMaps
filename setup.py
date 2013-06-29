@@ -44,4 +44,5 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Environment :: Web Environment",
     ],
+    zip_safe=False,
 )
