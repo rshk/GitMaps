@@ -24,8 +24,28 @@ from flask import render_template, session
 from flask.ext import restful
 import requests
 
+from werkzeug.contrib.cache import SimpleCache
+
 from . import app
 from .auth import github, require_github
+
+
+cache = SimpleCache()
+
+
+@app.context_processor
+def add_user_info():
+    user = cache.get('user_profile')
+    if user is None:
+        auth = github.get_session(token=session['token'])
+        resp = auth.get('user')
+        if resp.ok:
+            user = resp.json()
+            user['authenticated'] = True
+        else:
+            user = {'authenticated': False}
+        cache.set('user_profile', user, timeout=120)
+    return dict(user=user)
 
 
 @app.route("/")

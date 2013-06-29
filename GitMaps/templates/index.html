@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block body_content %}
 
+{% include "partial/navbar.html" %}
+
 <div class="intro-header">
     <div class="container">
         <h1>Welcome to GitMaps!</h1>
@@ -13,11 +15,12 @@
     <div class="alert alert-error">
         <strong>Warning!</strong>
         This thing is still very experimental / proof of concept.
-        Use at your own risk. Use on "real" files is not recommended as
-        it's not guaranteed not to mess up with your files!
+        Use at your own risk.<br>
+        Usage on "real" files is not recommended as it's not guaranteed
+        not to mess up with your files!
     </div>
 
-    <h2>Motivation</h2>
+    <h2>What's this?</h2>
 
     <p>
         GitHub recently introduced
@@ -28,45 +31,58 @@
         tought for dealing with maps on GitHub.
     </p>
 
-    <div>
+    <div style="text-align:center;margin:25px 0;">
         <a href="/map-editor/" class="btn btn-large btn-primary">
+            <i class="icon-map-marker"></i>
             Start editing your maps now!
         </a>
-        or
-        <a href="#" class="btn btn-large btn-success">
-            View the gh-map documentation
+        <a href="https://github.com/rshk/GitMaps" class="btn btn-large">
+            <i class="icon-github"></i>
+            Fork on GitHub!
         </a>
+        <!-- <a href="#" class="btn btn-large btn-success">
+            View the gh-map documentation
+        </a> -->
     </div>
 
-    <h2>Features</h2>
-
-    <ul>
-        <li>Browse your repositories / files to find GeoJSON files</li>
-        <li>View your GeoJSON files on a map</li>
-        <li>Edit your GeoJSON files on a map</li>
-    </ul>
-
-    <h2>Planned features</h2>
-
-    <ul>
-        <li>Support for viewing complex multi-layer maps
+    <div class="row-fluid">
+        <div class="span4">
+            <h2>Features</h2>
+            <ol>
+                <li>Explore your GitHub repositories and find GeoJSON files</li>
+                <li>Display your files on a map</li>
+                <li>Easily edit them on a map too, thanks to the power
+                    of Leaflet Draw plugin.</li>
+                <li>Save and have them automatically committed to your
+                    repository &mdash; in a way similar to what the "online
+                    edit" GitHub feature does</li>
+            </ol>
+        </div>
+        <div class="span4">
+            <h2>Technologies</h2>
             <ul>
-                <li>Configuration files: something like <code>*.gh-map</code></li>
-                <li>Map accessible as <code>.../user/repo/branch/path.gh-map</code> </li>
+                <li>Python</li>
+                <li>Flask &mdash; powerful Python micro-framework</li>
+                <li>Flask-RESTful &mdash; Flask extension to easily create APIs</li>
+                <li>rauth &mdash; for handling GitHub OAuth from Python</li>
+                <li>Leaflet &mdash; the map view/editing widget</li>
+                <li>jQuery &mdash; for communication with the API</li>
             </ul>
-        </li>
-    </ul>
-
-    <h2>Technologies</h2>
-
-    <ul>
-        <li>Python</li>
-        <li>Flask &mdash; powerful Python micro-framework</li>
-        <li>Flask-RESTful &mdash; Flask extension to easily create APIs</li>
-        <li>rauth &mdash; for handling GitHub OAuth from Python</li>
-        <li>Leaflet &mdash; the map view/editing widget</li>
-        <li>jQuery &mdash; for communication with the API</li>
-    </ul>
+        </div>
+        <div class="span4">
+            <h2>Future plans</h2>
+            <ul>
+                <li>Support for displaying and editing complex multi-layer maps
+                    <ul>
+                        <li>Configuration files: something like <code>*.gh-map</code></li>
+                        <li>Map accessible as <code>.../user/repo/branch/path.gh-map</code> </li>
+                    </ul>
+                </li>
+                <li>Maybe, continue along the way and add support for other
+                    formats too..? We'll see...</li>
+            </ul>
+        </div>
+    </div>
 
     <hr>
 
