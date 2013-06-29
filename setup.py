@@ -29,13 +29,13 @@ setup(
     description='',
     install_requires=[
         'flask',
-        'flask-oauth',
         'flask-restful',
         'requests',
+        'rauth',
     ],
     entry_points={
         'console_scripts': [
-            'ghmap = ghmap.server:run',
+            'gitmaps = ghmap.server:run',
         ],
     },
     classifiers=[
