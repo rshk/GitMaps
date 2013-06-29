@@ -35,7 +35,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'gitmaps = GitMaps.server:run',
+            'gitmaps = GitMaps.server:run_from_command_line',
         ],
     },
     classifiers=[

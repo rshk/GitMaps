@@ -19,7 +19,5 @@ app = Flask(__name__)
 
 app.config.from_envvar('GITMAPS_CONF')
 
-
-## Import the views
 from GitMaps import auth
 from GitMaps import views

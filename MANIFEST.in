@@ -12,5 +12,5 @@ global-include *.woff
 include README.rst
 include LICENSE
 
-recursive-exclude ghmap *~
-recursive-include ghmap/app/ *
+recursive-exclude GitMaps *~
+recursive-include GitMaps *
