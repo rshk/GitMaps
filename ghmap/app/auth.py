@@ -58,7 +58,7 @@ def login():
     redirect_uri = url_for('authorized', next=request.args.get('next') or
         request.referrer or None, _external=True)
     # More scopes http://developer.github.com/v3/oauth/#scopes
-    params = {'redirect_uri': redirect_uri, 'scope': 'user:email'}
+    params = {'redirect_uri': redirect_uri, 'scope': 'user:email,repo'}
     print(github.get_authorize_url(**params))
     return redirect(github.get_authorize_url(**params))
 
