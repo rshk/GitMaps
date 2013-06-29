@@ -45,4 +45,5 @@ setup(
         "Environment :: Web Environment",
     ],
     zip_safe=False,
+    include_package_data=True,
 )

@@ -1,4 +1,4 @@
 flask
 flask-oauth
-flask-restful
 requests
+rauth

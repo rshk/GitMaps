@@ -1,5 +1,16 @@
-global-include *.js
+global-include *.html
 global-include *.css
+global-include *.eot
+global-include *.js
+global-include *.otf
 global-include *.png
+global-include *.rst
+global-include *.svg
+global-include *.ttf
+global-include *.woff
+
 include README.rst
 include LICENSE
+
+recursive-exclude ghmap *~
+recursive-include ghmap/app/ *
