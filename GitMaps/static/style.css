@@ -5,33 +5,40 @@
     bottom: 10px;
     right: 10px;
 }
-th, td { text-align: left; }
-th { font-weight: bold; }
+/*th, td { text-align: left; }
+th { font-weight: bold; }*/
+
+/*.navbar .brand {
+    color: #fff;
+}
+.navbar .brand i {
+    color: #f00;
+}*/
+.navbar .brand,
+.navbar .brand i {
+    transition: color 1s;
+    color: #ddd;
+}
+.navbar .brand i {
+    color: #aaa;
+}
+.navbar .brand:hover i {
+    color: #f00;
+}
 
 .leaflet-popup-content {
     margin: 10px 10px;
 }
-
 .leaflet-popup-content-wrapper {
     border-radius: 0;
     -webkit-border-radius: 0;
 }
 
-body.region-america .intro-header {
-    background-position: 100px center;
-}
-body.region-europe .intro-header {
-    background-position: -500px center;
-}
-body.region-asia .intro-header {
-    background-position: -800px center;
-}
-
-
 .intro-header {
-    padding: 50px 0;
-    background: #10140F url(./images/title-background.png);
-    background-position: center center;
+    padding: 150px 0;
+    background: #10140F url(./images/title-background.png) repeat-x;
+    background-position: 400px -30px;
+    /*background-position: 500px -100px;*/
     background-attachment: 100px 0;
     color: #fff;
     border-top: solid 1px #555;
@@ -39,6 +46,16 @@ body.region-asia .intro-header {
     margin-bottom: 20px;
     text-shadow: #000 0 0 20px;
 }
+/*.intro-header {
+    padding: 50px 0;
+    background-position: 500px -100px;
+    transition: padding 1s,
+                background-position 1s;
+}
+.intro-header:hover {
+    padding: 200px 0;
+    background-position: 500px 0;
+}*/
 
 @media (max-width: 767px) {
     .intro-header {

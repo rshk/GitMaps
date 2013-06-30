@@ -3,20 +3,21 @@
 
 {% block body_content %}
 
-{% include "partial/navbar.html" %}
+  {% include "partial/navbar.html" %}
 
-{% block page_content %}{% endblock %}
+  {% block page_content %}{% endblock %}
 
-{%block footer%}
-<div class="container">
+  {%block footer%}
+    <div class="container">
 
-<hr>
-<p style="color:#888;font-size:80%;">
-    &copy; 2013 Samuele Santi - Under Apache License Version 2.0<br>
-    This application is <strong>not</strong> in any way affiliated with GitHub.
-</p>
+      <hr>
 
-</div>
-{% endblock %}
+      <p style="color:#888;font-size:80%;">
+          &copy; 2013 Samuele Santi - Under Apache License Version 2.0<br>
+          This application is <strong>not</strong> in any way affiliated with GitHub.
+      </p>
+
+    </div>
+  {% endblock %}
 
 {% endblock %}
