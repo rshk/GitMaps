@@ -37,12 +37,14 @@ cache = SimpleCache()
 def add_user_info():
     user = cache.get('user_profile')
     if user is None:
-        auth = github.get_session(token=session['token'])
-        resp = auth.get('user')
-        if resp.ok:
+        try:
+            auth = github.get_session(token=session['token'])
+            resp = auth.get('user')
+            if not resp.ok:
+                raise Exception("Request failed")
             user = resp.json()
             user['authenticated'] = True
-        else:
+        except:
             user = {'authenticated': False}
         cache.set('user_profile', user, timeout=120)
     return dict(user=user)
