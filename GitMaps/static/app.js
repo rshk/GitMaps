@@ -137,8 +137,11 @@ var Application = window.Application = (function(){
                 var container = L.DomUtil.create('div'),
                     $container = $(container);
 
-                $container.html('<button type="button" class="btn btn-primary">Save changes</button>')
-                $container.find('button').click(function(){
+                $container
+                    .html('<button type="button" class="btn btn-primary" data-role="save">Save changes</button>'
+                        + ' <button type="button" class="btn" data-role="review">Review changes</button>');
+
+                $container.find('[data-role="save"]').click(function(){
                     if (!map.editableLayer) return;
                     var data = JSON.stringify(map.editableLayer.toGeoJSON());
 
@@ -157,6 +160,22 @@ var Application = window.Application = (function(){
 
                 });
 
+                $container.find('[data-role="review"]').click(function(){
+                    if (!map.editableLayer) return;
+                    var data = JSON.stringify(map.editableLayer.toGeoJSON(),true,2);
+                    // alert(data);
+                    var textarea = $('<textarea style="width:500px;height:300px;">');
+                    textarea.val(data);
+                    showModal({
+                        title: 'Review changes',
+                        body: textarea
+                        /*save: function(e) {
+                            feature.properties =
+                                $.parseJSON(e.dialog.find('textarea').val());
+                        }*/
+                    });
+                });
+
                 // ... initialize other DOM elements, add listeners, etc.
 
                 return container;
@@ -171,10 +190,16 @@ var Application = window.Application = (function(){
             // todo: the pop-up content should be generated dynamically when opening...
             // var popup_content = ("<div>" + table_html + "<div style='text-align:center;'><button type='button' class='btn btn-small'>Edit</button></div></div>");
 
+            console.log("addEditingPopup", feature, layer)
+
+            if (layer.feature === undefined) {
+                layer.feature = layer.toGeoJSON()
+            }
+
             layer.bindPopup('Loading...');
 
             layer.on('popupopen', function(e) {
-                var table_html = templates.propertiesTable({feature: feature});
+                var table_html = templates.propertiesTable({feature: layer.feature});
                 var popup_content = ("<div>" + table_html + "<div style='text-align:center;'><button type='button' class='btn btn-small'>Edit</button></div></div>");
                 e.popup.setContent(popup_content);
                 $(e.popup._container).find('button').click(function(){
@@ -184,7 +209,7 @@ var Application = window.Application = (function(){
                     // var dialog_body = modal_dialog.find('modal-body');
                     // dialog_body.html('Edit feature<br>');
                     var textarea = $('<textarea style="width:500px;height:300px;">');
-                    textarea.val(JSON.stringify(feature.properties,true,2));
+                    textarea.val(JSON.stringify(layer.feature.properties,true,2));
                     // dialog_body.append(textarea);
 
                     layer.closePopup();
@@ -193,7 +218,8 @@ var Application = window.Application = (function(){
                         title: 'Edit feature',
                         body: textarea,
                         save: function(e) {
-                            feature.properties =
+                            // todo: if json is not valid, show an error and prevent saving
+                            layer.feature.properties =
                                 $.parseJSON(e.dialog.find('textarea').val());
                         }
                     });
@@ -255,11 +281,14 @@ var Application = window.Application = (function(){
 
                 // todo: we should make more checks here...
                 if (type === 'marker') {
-                    if (layer.feature === undefined) {
-                        layer.feature = {};
+                    // if (layer.feature === undefined) {
+                    //     layer.feature = {};
+                    // }
+                    // layer.feature.properties = {};
+                    if (layer.properties === undefined) {
+                        layer.properties = {}
                     }
-                    layer.feature.properties = {};
-                    addEditingPopup(layer.feature.properties, layer);
+                    addEditingPopup(layer.feature, layer);
                 }
                 map.editableLayer.addLayer(layer);
            });
